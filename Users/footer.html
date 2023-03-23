@@ -1,2 +1,15 @@
-    </body>
+</body>
+<script>
+    function validate(e) {
+        alert("work");
+        let pass = document.getElementById('password').value;
+        let conf_pass = document.getElementById('conf-password').value;
+        alert(pass);
+        if (pass != conf_pass) {
+            return false;
+            alert("Passwords do not match");
+        }
+    }
+</script>
+
 </html>

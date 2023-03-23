@@ -17,7 +17,7 @@ if (isset($_GET['login'])) {
         if ($result->rowCount() > 0) {
             $row = $result->fetch();
             if ($row['password'] == $_POST['password']) {
-                header('Location:mainpage.php');
+                header("Location: ../MainPage/mainpage.php");
                 return;
             }
             echo 'password incorrect, try again';
@@ -26,6 +26,7 @@ if (isset($_GET['login'])) {
         echo 'The user with given email was not found';
     } catch (PDOException $e) {
         $output = 'Unable to connect to the database server: ' . $e->getMessage();
+        echo $output;
     }
 }
 include('footer.html');
