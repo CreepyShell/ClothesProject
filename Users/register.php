@@ -21,7 +21,7 @@ if (isset($_POST['register'])) {
             $password = $_POST['password'];
             $email = $_POST['email'];
             $conf_pass = $_POST['conf-password'];
-            echo $conf_pass.' '.$password;
+            echo $conf_pass . ' ' . $password;
             if ($password == $conf_pass) {
                 $insertSql = "INSERT INTO USERS(email, password) VALUES(:email, :password)";
                 $resultInsert = $pdo->prepare($insertSql);
@@ -31,9 +31,10 @@ if (isset($_POST['register'])) {
                 $resultInsert->execute();
                 if ($resultInsert->rowCount() == 1) {
                     header("Location: ../MainPage/mainpage.php");
+                    session_start();
+                    $_SESSION['email'] = $email;
                 }
-            }
-            else{
+            } else {
                 echo "Passwords do not match";
             }
         } else {

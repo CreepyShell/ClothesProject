@@ -1,11 +1,12 @@
 <?php
 include('header.html');
-echo '<form action="login.php" method="post">
+echo '<form action="login.php" method="POST">
         <label for="email">Email:</label><input type="text" id="email" name="email"><br>
         <label for="password">Password:</label><input type="password" id="password" name="password"><br>
-        <button type="submit">Submit</button>
+        <button name="login" type="submit">Submit</button>
     </form>';
-if (isset($_GET['login'])) {
+if (isset($_POST['login'])) {
+    echo "work";
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
