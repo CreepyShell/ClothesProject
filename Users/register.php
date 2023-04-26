@@ -1,13 +1,11 @@
-<?php
-include('header.html');
-
-echo '<form action="register.php" method="post" onsubmit="return validate(e)">
+<form action="register.php" method="post" onsubmit="return validate(e)">
     <label for="email">Email:</label><input type="text" id="email" name="email"><br>
     <label for="password">Password:</label><input type="password" id="password" name="password"><br>
     <label for="conf-password">Confirm password:</label><input type="password" id="conf-password" name="conf-password"><br>
     <input type="submit" name="register" value="Submit">
-</form>';
-
+</form>
+<?php
+include('header.html');
 if (isset($_POST['register'])) {
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
@@ -20,8 +18,7 @@ if (isset($_POST['register'])) {
         if ($result->rowCount() == 0) {
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $conf_pass = $_POST['conf-password'];
-            
+
             if ($password == $conf_pass) {
                 $insertSql = "INSERT INTO USERS(email, password) VALUES(:email, :password)";
                 $resultInsert = $pdo->prepare($insertSql);

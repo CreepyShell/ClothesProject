@@ -1,10 +1,10 @@
+<form action="login.php" method="POST">
+    <label for="email">Email:</label><input type="text" id="email" name="email"><br>
+    <label for="password">Password:</label><input type="password" id="password" name="password"><br>
+    <button name="login" type="submit">Submit</button>
+</form>;
 <?php
 include('header.html');
-echo '<form action="login.php" method="POST">
-        <label for="email">Email:</label><input type="text" id="email" name="email"><br>
-        <label for="password">Password:</label><input type="password" id="password" name="password"><br>
-        <button name="login" type="submit">Submit</button>
-    </form>';
 if (isset($_POST['login'])) {
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
