@@ -6,7 +6,6 @@ echo '<form action="login.php" method="POST">
         <button name="login" type="submit">Submit</button>
     </form>';
 if (isset($_POST['login'])) {
-    echo "work";
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

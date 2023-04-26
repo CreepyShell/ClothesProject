@@ -21,7 +21,7 @@ if (isset($_POST['register'])) {
             $password = $_POST['password'];
             $email = $_POST['email'];
             $conf_pass = $_POST['conf-password'];
-            echo $conf_pass . ' ' . $password;
+            
             if ($password == $conf_pass) {
                 $insertSql = "INSERT INTO USERS(email, password) VALUES(:email, :password)";
                 $resultInsert = $pdo->prepare($insertSql);
