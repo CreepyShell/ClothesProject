@@ -44,7 +44,7 @@ function getProductById(int $id)
             (float)$row['cost'],
             $row['image_url'],
             (int)$row['TypeId'],
-            (int) $row['Amount']
+            (int) $row['amount']
         );
         return $product;
     }
@@ -123,7 +123,7 @@ function getProductsByQuery(string $query)
             (float)$row['cost'],
             $row['image_url'],
             $row['TypeId'],
-            $row['Amount']
+            $row['amount']
         ));
     }
     return $prod_array;
@@ -138,16 +138,13 @@ function buyProducts(array $ids, int $user_id)
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $getProductsQuery = 'SELECT product_id, amount FROM Products WHERE ';
-    foreach ($ids as $id) {
-        $getProductsQuery . 'product_id=' . $id . ' OR ';
-    }
+    $getProductsQuery = 'SELECT product_id, amount FROM Products WHERE product_id in ('.implode(",",$ids).')';
 
     //check is there is enough products in the stock 
     $result = $pdo->query($getProductsQuery);
     while ($row = $result->fetch()) {
-        if((int)$row['amount'] < $ids[(int)$row['product_id']][0]){
-            return '';
+        if($row['amount'] < $ids[(int)$row['product_id']][0]){
+            return 'Not enough products with name '.$row['name']. 'in the stock, only '.$row['amount'].' left';
         }
     }
 
@@ -158,4 +155,11 @@ function buyProducts(array $ids, int $user_id)
     $resultInsert->bindValue(':product_id', $ids[0]);
     $resultInsert->bindValue(':purchase_date', date("d/m/Y"));
     $resultInsert->bindValue(':amount', $ids[0][0]);
+}
+
+function getBoughtProducts(int $userId){
+    $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $getProductsQuery = 'SELECT product_id FROM Products WHERE ';
 }

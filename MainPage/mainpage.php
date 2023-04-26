@@ -12,7 +12,7 @@ include('../Products/products.php');
     <div>
         <a href="../Users/login.php">Login</a>
         <a href="../Users/register.php">Register</a>
-        <a href="cart.php">Got to cart</a>
+        <a href="cart.php">Go to the cart</a>
     </div>
     <div>
         <a href="../Products/addProduct.php">Add product</a>
@@ -28,7 +28,7 @@ include('../Products/products.php');
                     <h5><?php echo $arr->getDescription() ?></h5>
                     <img src="<?php echo $arr->getImage() ?>" alt="<?php echo $arr->getName() ?> photo">
                     <form action="mainpage.php?id=<?php echo $arr->getId() ?>" method="POST">
-                        <input type="number" min="0" name="amount">
+                        <input type="number" min="1" value="1" name="amount">
                         <button id="cart-button" name="cart-button">Add to cart</button>
                     </form>
                 </div>
@@ -42,6 +42,11 @@ include('../Products/products.php');
                 session_start();
                 if (isset($_SESSION['cart'])) {
                     $cart = $_SESSION['cart'];
+                    foreach ($cart as $key => $value) {
+                        if ($value[0] == $prod_id) {
+                            unset($cart[$key]);
+                        }
+                    }
                     array_push($cart, array($prod_id, $count));
                     $_SESSION['cart'] = $cart;
                 } else {
