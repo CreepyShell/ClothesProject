@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `product_type`
+-- Table structure for table `product_types`
 --
 
-DROP TABLE IF EXISTS `product_type`;
+DROP TABLE IF EXISTS `product_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_type` (
+CREATE TABLE `product_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(30) DEFAULT NULL,
   `category` varchar(30) NOT NULL,
@@ -32,13 +32,13 @@ CREATE TABLE `product_type` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `product_type`
+-- Dumping data for table `product_types`
 --
 
-LOCK TABLES `product_type` WRITE;
-/*!40000 ALTER TABLE `product_type` DISABLE KEYS */;
-INSERT INTO `product_type` VALUES (1,'black','trousers');
-/*!40000 ALTER TABLE `product_type` ENABLE KEYS */;
+LOCK TABLES `product_types` WRITE;
+/*!40000 ALTER TABLE `product_types` DISABLE KEYS */;
+INSERT INTO `product_types` VALUES (1,'black','trousers');
+/*!40000 ALTER TABLE `product_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `products` (
   PRIMARY KEY (`product_id`),
   UNIQUE KEY `name` (`name`),
   KEY `TypeId` (`TypeId`),
-  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`TypeId`) REFERENCES `product_type` (`id`)
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`TypeId`) REFERENCES `product_types` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -74,28 +74,33 @@ INSERT INTO `products` VALUES (11,600.00,1,'Shirt','Black and white','1345',0),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `purchase_item`
+-- Table structure for table `purchase_items`
 --
 
-DROP TABLE IF EXISTS `purchase_item`;
+DROP TABLE IF EXISTS `purchase_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `purchase_item` (
+CREATE TABLE `purchase_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `purchase_date` date NOT NULL,
   `amount` int(3) NOT NULL,
-  PRIMARY KEY (`user_id`,`product_id`)
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `purchase_items_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  CONSTRAINT `purchase_items_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `purchase_item`
+-- Dumping data for table `purchase_items`
 --
 
-LOCK TABLES `purchase_item` WRITE;
-/*!40000 ALTER TABLE `purchase_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `purchase_item` ENABLE KEYS */;
+LOCK TABLES `purchase_items` WRITE;
+/*!40000 ALTER TABLE `purchase_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -163,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-25 12:06:13
+-- Dump completed on 2023-04-29 20:50:01

@@ -6,7 +6,12 @@
 </head>
 
 <body>
-    <?php include("products.php");
+    <?php
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: ../Users/login.php");
+    }
+    include("products.php");
     $product = getProductById((int)$_GET['pr_id']);
     if (is_null($product)) {
         header("Location: ../MainPage/mainpage.php");
@@ -30,8 +35,7 @@
         } else {
             if (updateProduct($product->getId(), $product)) {
                 header("Location: ../MainPage/mainpage.php");
-            }
-            else{
+            } else {
                 echo "Nothing to update";
             }
         }

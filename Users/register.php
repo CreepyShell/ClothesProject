@@ -6,36 +6,20 @@
 </form>
 <?php
 include('header.html');
+include('users.php');
+if(isset($_SESSION['user_id'])){
+    header("Location: ../MainPage/mainpage.php");
+}
 if (isset($_POST['register'])) {
     try {
-        $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $conf_pasword = $_POST['conf-password'];
 
-        $sql = "SELECT * FROM users WHERE email=:cemail";
-        $result = $pdo->prepare($sql);
-        $result->bindValue(':cemail', $_POST['email']);
-        $result->execute();
-        if ($result->rowCount() == 0) {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-
-            if ($password == $conf_pass) {
-                $insertSql = "INSERT INTO USERS(email, password) VALUES(:email, :password)";
-                $resultInsert = $pdo->prepare($insertSql);
-                $resultInsert->bindValue(':email', $email);
-                $resultInsert->bindValue(':password', $password);
-
-                $resultInsert->execute();
-                if ($resultInsert->rowCount() == 1) {
-                    header("Location: ../MainPage/mainpage.php");
-                    session_start();
-                    $_SESSION['email'] = $email;
-                }
-            } else {
-                echo "Passwords do not match";
-            }
+        if ($password != $conf_pasword) {
+            echo 'Passwords do not match';
         } else {
-            echo 'User with this name already exist';
+            register($email, $password);
         }
     } catch (PDOException $e) {
         $output = 'Unable to connect to the database server: ' . $e->getMessage();

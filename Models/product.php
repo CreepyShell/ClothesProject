@@ -90,4 +90,8 @@ class Product
     {
         $this->image_url = $image_url;
     }
+    function setAmount(int $amount)
+    {
+        $this->amount = $amount;
+    }
 }

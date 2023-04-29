@@ -10,12 +10,25 @@ include('../Products/products.php');
 
 <body>
     <div>
-        <a href="../Users/login.php">Login</a>
-        <a href="../Users/register.php">Register</a>
-        <a href="cart.php">Go to the cart</a>
+        <?php
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            echo  ' <a href="../Users/login.php">Login</a>';
+            echo ' <a href="../Users/register.php">Register</a><br>';
+        }
+        else{
+            include('AuthorizeActions/logOut.html');
+        }
+        ?>
     </div>
     <div>
-        <a href="../Products/addProduct.php">Add product</a>
+        <?php
+        if (isset($_SESSION['user_id'])) {
+            echo  '<a href="cart.php">Go to the cart</a><br>';
+            echo '<a href="purchases.php">Show my purchases</a><br>';
+            echo '<a href="../Products/addProduct.php">Add product</a>';
+        }
+        ?>
     </div>
     <div class="product-container">
         <?php
@@ -27,19 +40,23 @@ include('../Products/products.php');
                     <h3><?php echo $arr->getCost() ?></h3>
                     <h5><?php echo $arr->getDescription() ?></h5>
                     <img src="<?php echo $arr->getImage() ?>" alt="<?php echo $arr->getName() ?> photo">
-                    <form action="mainpage.php?id=<?php echo $arr->getId() ?>" method="POST">
-                        <input type="number" min="1" value="1" name="amount">
-                        <button id="cart-button" name="cart-button">Add to cart</button>
-                    </form>
+                    <?php
+                    if (isset($_SESSION['user_id'])) {
+                        include('AuthorizeActions/addToCartButton.html');
+                    }
+                    ?>
                 </div>
-                <a href="../Products/updateProduct.php?pr_id=<?php echo $arr->getId() ?>">Update product</a>
-                <a href="../Products/deleteProduct.php?pr_id=<?php echo $arr->getId() ?>">Remove product</a>
+                <?php
+                if (isset($_SESSION['user_id'])) {
+                    echo '<a href="../Products/updateProduct.php?pr_id=' . $arr->getId() . '">Update product</a>';
+                    echo '<a href="../Products/deleteProduct.php?pr_id=' . $arr->getId() . '">Remove product</a>';
+                }
+                ?>
 
         <?php }
             if (isset($_POST['cart-button'])) {
                 $prod_id = $_GET['id'];
                 $count = $_POST['amount'];
-                session_start();
                 if (isset($_SESSION['cart'])) {
                     $cart = $_SESSION['cart'];
                     foreach ($cart as $key => $value) {
@@ -52,6 +69,11 @@ include('../Products/products.php');
                 } else {
                     $_SESSION['cart'] = array(array($prod_id, $count));
                 }
+            }
+
+            if(isset($_POST['logOut'])){
+                session_destroy();
+                header("Location: ../Users/login.php");
             }
         } ?>
     </div>

@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(!isset($_SESSION['user_id'])){
+    header("Location: ../Users/login.php");
+}
 include("products.php");
 $product = getProductById((int)$_GET['pr_id']);
 if (is_null($product)) {

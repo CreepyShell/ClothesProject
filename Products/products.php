@@ -55,13 +55,14 @@ function updateProduct(int $id, Product $product)
 {
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = 'update products set name=:name, description = :description, cost = :cost, image_url = :img_url WHERE product_id = :id';
+    $sql = 'update products set name=:name, description = :description, cost = :cost, image_url = :img_url, amount = :amount WHERE product_id = :id';
     $result = $pdo->prepare($sql);
     $result->bindValue(':id', $id);
     $result->bindValue(':name', $product->getName());
     $result->bindValue(':description', $product->getDescription());
     $result->bindValue(':cost', $product->getCost());
     $result->bindValue(':img_url', $product->getImage());
+    $result->bindValue(':amount', $product->getAmount());
     $result->execute();
 
     $count = $result->rowCount();
@@ -129,37 +130,43 @@ function getProductsByQuery(string $query)
     return $prod_array;
 }
 
-function buyProducts(array $ids, int $user_id)
+function buyProduct(int $id, int $user_id, int $amount)
 {
-    if (sizeof($ids) == 0) {
-        return "array is empty";
-    }
-
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $getProductsQuery = 'SELECT product_id, amount FROM Products WHERE product_id in ('.implode(",",$ids).')';
+    $getProductQuery = 'SELECT product_id, amount FROM Products WHERE product_id = ' . $id;
 
     //check is there is enough products in the stock 
-    $result = $pdo->query($getProductsQuery);
-    while ($row = $result->fetch()) {
-        if($row['amount'] < $ids[(int)$row['product_id']][0]){
-            return 'Not enough products with name '.$row['name']. 'in the stock, only '.$row['amount'].' left';
-        }
+    $product = getProductById($id);
+    if ($product == null) {
+        return null;
     }
 
-    $insertSql = "INSERT INTO purchase_item(user_id, product_id, purchase_date, amount)
+    if ($product->getAmount() < $amount) {
+        throw new InvalidArgumentException('There are not enough products in the stock');
+    }
+
+    //buy product (insert product purchase details in the Purchase_item Table)
+    $insertSql = "INSERT INTO purchase_items(user_id, product_id, purchase_date, amount)
     VALUES(:user_id, :product_id, :purchase_date, :amount)";
     $resultInsert = $pdo->prepare($insertSql);
     $resultInsert->bindValue(':user_id', $user_id);
-    $resultInsert->bindValue(':product_id', $ids[0]);
+    $resultInsert->bindValue(':product_id', $id);
     $resultInsert->bindValue(':purchase_date', date("d/m/Y"));
-    $resultInsert->bindValue(':amount', $ids[0][0]);
+    $resultInsert->bindValue(':amount', $amount);
+    $resultInsert->execute();
+
+    //update product
+    $newAmount = $product->getAmount() - $amount;
+    $product->setAmount($newAmount);
+    updateProduct($id, $product);
 }
 
-function getBoughtProducts(int $userId){
+function getBoughtProducts(int $userId)
+{
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $getProductsQuery = 'SELECT product_id FROM Products WHERE ';
+    $getProductsQuery = 'SELECT * FROM Products WHERE user_id='.$userId;
 }
