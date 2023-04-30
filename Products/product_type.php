@@ -19,3 +19,21 @@ function getProductTypes()
     }
     return $prod_type_array;
 }
+
+function getProductTypeById(int $id)
+{
+    $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "SELECT * FROM product_types WHERE id=" . $id;
+    $result = $pdo->query($sql);
+    if ($result->rowCount() == 0) {
+        return null;
+    }
+
+    $row = $result->fetch();
+    $type = new ProductType();
+    $type->setDescription($row['description']);
+    $type->setCategory($row['category']);
+    return $type;
+}

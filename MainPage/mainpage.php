@@ -1,5 +1,6 @@
 <?php
-include('../Products/products.php');
+require('../Products/products.php');
+require('../Products/product_type.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,11 +13,11 @@ include('../Products/products.php');
     <div>
         <?php
         session_start();
+        $currentDate = date('j/m/Y H:i');
         if (!isset($_SESSION['user_id'])) {
             echo  ' <a href="../Users/login.php">Login</a>';
             echo ' <a href="../Users/register.php">Register</a><br>';
-        }
-        else{
+        } else {
             include('AuthorizeActions/logOut.html');
         }
         ?>
@@ -37,8 +38,10 @@ include('../Products/products.php');
             foreach ($prod_array as $arr) { ?>
                 <div class="product">
                     <h2><?php echo $arr->getName() ?></h2>
-                    <h3><?php echo $arr->getCost() ?></h3>
+                    <h3>Cost: <?php echo $arr->getCost() ?></h3>
+                    <h3>Type: <?php echo getProductTypeById($arr->getTypeId())->getCategory() ?></h3>
                     <h5><?php echo $arr->getDescription() ?></h5>
+                    <h5>Left in the stock: <?php echo $arr->getAmount() ?></h5>
                     <img src="<?php echo $arr->getImage() ?>" alt="<?php echo $arr->getName() ?> photo">
                     <?php
                     if (isset($_SESSION['user_id'])) {
@@ -71,7 +74,7 @@ include('../Products/products.php');
                 }
             }
 
-            if(isset($_POST['logOut'])){
+            if (isset($_POST['logOut'])) {
                 session_destroy();
                 header("Location: ../Users/login.php");
             }

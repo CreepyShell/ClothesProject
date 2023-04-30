@@ -12,6 +12,7 @@ class Product
     public int $amount;
 
     //https://www.amitmerchant.com/multiple-constructors-php/
+    //need to overload contructor in this class
     public function __construct()
     {
         $arguments = func_get_args();

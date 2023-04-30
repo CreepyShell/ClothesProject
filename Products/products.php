@@ -150,10 +150,11 @@ function buyProduct(int $id, int $user_id, int $amount)
     //buy product (insert product purchase details in the Purchase_item Table)
     $insertSql = "INSERT INTO purchase_items(user_id, product_id, purchase_date, amount)
     VALUES(:user_id, :product_id, :purchase_date, :amount)";
+    $currentDate = date('Y-m-d H:i:s');
     $resultInsert = $pdo->prepare($insertSql);
     $resultInsert->bindValue(':user_id', $user_id);
     $resultInsert->bindValue(':product_id', $id);
-    $resultInsert->bindValue(':purchase_date', date("d/m/Y"));
+    $resultInsert->bindValue(':purchase_date', $currentDate);
     $resultInsert->bindValue(':amount', $amount);
     $resultInsert->execute();
 
@@ -168,5 +169,23 @@ function getBoughtProducts(int $userId)
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $getProductsQuery = 'SELECT * FROM Products WHERE user_id='.$userId;
+    $getProductsQuery = 'SELECT * FROM purchase_items LEFT JOIN products on 
+    purchase_items.product_id=products.product_id WHERE user_id=' . $userId;
+
+    $result = $pdo->query($getProductsQuery);
+    if ($result->rowCount() == 0) {
+        return null;
+    }
+
+    $result_array = array();
+    while ($row = $result->fetch()) {
+        $cost = $row['cost'];
+        settype($cost, 'float');
+        $product = new Product($row['name'], $row['description'], $cost, $row['image_url'], $row['TypeId'], $row['amount']);
+
+        $amount = $row[4];
+        $purchase_date = $row['purchase_date'];
+        array_push($result_array, array($product, $amount, $purchase_date));
+    }
+    return $result_array;
 }
