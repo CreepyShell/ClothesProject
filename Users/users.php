@@ -20,10 +20,10 @@ function login(User $user)
             header("Location: ../MainPage/mainpage.php");
             return;
         }
-        echo 'password incorrect, try again';
+        echo '<p class="error">password incorrect, try again</p>';
         return;
     }
-    echo 'The user with given email was not found';
+    echo '<p class="error">The user with given email was not found</p>';
 }
 
 function register(string $email, string $password)
@@ -33,7 +33,7 @@ function register(string $email, string $password)
     $user->setPassword($password);
     $message = validateUser($user);
     if ($message != "valid") {
-        echo "Invalid data: " . $message;
+        echo '<p class="error">Invalid data: ' . $message.'</p>';
         return;
     }
 
@@ -56,7 +56,7 @@ function register(string $email, string $password)
         }
         return;
     }
-    echo 'User with this name already exist';
+    echo '<p class="error">User with this name already exist</p>';
 }
 
 function validateUser(User $user)

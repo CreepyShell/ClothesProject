@@ -76,6 +76,14 @@ function deleteProduct(int $id)
 {
     $pdo = new PDO('mysql:host=localhost;dbname=clothes; charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    //deleting purchase items first
+    $deletePurchases = 'DELETE FROM purchase_items WHERE product_id = :id';
+    $resultPurchases = $pdo->prepare($deletePurchases);
+    $resultPurchases->bindValue(':id', $id);
+    $resultPurchases->execute();
+
+    //then delete a product
     $sql = 'DELETE FROM products WHERE product_id = :id';
     $result = $pdo->prepare($sql);
     $result->bindValue(':id', $id);
@@ -144,7 +152,7 @@ function buyProduct(int $id, int $user_id, int $amount)
     }
 
     if ($product->getAmount() < $amount) {
-        throw new InvalidArgumentException('There are not enough products in the stock');
+        throw new InvalidArgumentException('There are not enough ' . $product->getName() . ' in the stock');
     }
 
     //buy product (insert product purchase details in the Purchase_item Table)

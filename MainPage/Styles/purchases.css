@@ -1,0 +1,24 @@
+.purchase-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-start;
+    padding: 20px;
+}
+
+.purchase {
+    width: 200px;
+}
+
+.first-word {
+    color: whitesmoke;
+}
+
+.purchase h2 {
+    color: antiquewhite;
+}
+
+.purchase img {
+    width: 120px;
+    height: 100px;
+}

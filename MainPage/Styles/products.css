@@ -1,0 +1,91 @@
+body {
+    background-color: rgb(16, 16, 16);
+}
+
+.go-back {
+    font-size: 25px;
+    float: right;
+    text-decoration: none;
+    color: rgb(189, 49, 49);
+    margin-top: -50px;
+}
+
+.title {
+    text-align: center;
+    color: #d1e956;
+}
+
+.main-form {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.prod-name,
+.prod-cost,
+.prod-description,
+.prod-image,
+.prod-type,
+.prod-amount {
+    color: blanchedalmond;
+    font-size: 20px;
+}
+
+#prod-name,
+#prod-cost,
+#prod-descr,
+#prod-url,
+#prod-type,
+#prod-amount {
+    color: aquamarine;
+    font-size: 20px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid blueviolet;
+    margin-bottom: 20px;
+}
+
+.prod-type-options {
+    background-color: rgb(34, 34, 34);
+    ;
+}
+
+#prod-descr {
+    width: 900px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+#prod-name:focus,
+#prod-cost:focus,
+#prod-descr:focus,
+#prod-url:focus,
+#prod-type:focus,
+#prod-amount:focus {
+    outline: none;
+}
+
+.add-prod-submit,
+.delete-prod-submit,
+.update-prod-submit {
+    background-color: darkcyan;
+    font-size: 30px;
+    border: none;
+    cursor: pointer;
+    color: lawngreen;
+    border-radius: 5px;
+}
+
+.add-prod-submit:hover,
+.delete-prod-submit:hover,
+.update-prod-submit:hover {
+    background-color: rgb(3, 163, 163);
+    font-size: 30px;
+    border: 2px solid whitesmoke;
+    color: black;
+}
+
+.error{
+    text-align: center;
+    color: rgb(255, 65, 65);
+    font-size: large;
+}

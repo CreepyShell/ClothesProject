@@ -1,31 +1,33 @@
 <html>
 
-<head></head>
+<head>
+    <link rel="stylesheet" href="../MainPage/Styles/products.css">
+</head>
 
 <body>
-    <?php 
+    <?php
     session_start();
-    if(!isset($_SESSION['user_id'])){
+    if (!isset($_SESSION['user_id'])) {
         header("Location: ../Users/login.php");
     }
     ?>
-    <form action="addProduct.php" method="POST">
-        <h1>Add product</h1>
-        <label for="prod-name">Enter product name</label><input type="text" name="name" id="prod-name"><br>
-        <label for="prod-cost">Enter product cost</label><input type="number" name="cost" id="prod-costs"><br>
-        <label for="prod-descr">Enter product description </label><input type="text" name="descr" id="prod-descr"><br>
-        <label for="prod-url">Enter product image url</label><input type="text" name="image-url" id="prod-url"><br>
-        <label for="prod-type">Enter product type</label><select name="prod-type" id="prod-type">
+    <h1 class="title">Add product</h1>
+    <a class="go-back" href="../MainPage/mainpage.php">Go back</a>
+    <form class="main-form" action="addProduct.php" method="POST">
+        <label class="prod-name" for="prod-name">Enter product name: </label><input type="text" name="name" id="prod-name"><br>
+        <label class="prod-cost" for="prod-cost">Enter product cost: </label><input type="number" name="cost" id="prod-cost"><br>
+        <label class="prod-description" for="prod-descr">Enter product description: </label><br><input type="text" name="descr" id="prod-descr"><br>
+        <label class="prod-image" for="prod-url">Enter product image url: </label><input type="text" name="image-url" id="prod-url"><br>
+        <label class="prod-type" for="prod-type">Enter product type: </label><select name="prod-type" id="prod-type">
             <?php
             include('product_type.php');
-            foreach(getProductTypes() as $type){
-                echo "<option value=".$type->getId().">".$type->getCategory()."</option>";
+            foreach (getProductTypes() as $type) {
+                echo '<option class="prod-type-options" value=' . $type->getId() . ">" . $type->getCategory() . "</option>";
             }
             ?>
         </select><br>
-        <label for="prod-amount">Enter amount of products</label><input type="text" name="prod-amount" id="prod-amount"><br>
-        <button type="submit" name="submit">Ready</button>
-        <a href="../MainPage/mainpage.php">Go back</a>
+        <label class="prod-amount" for="prod-amount">Enter amount of products: </label><input type="number" min="1" name="prod-amount" id="prod-amount"><br>
+        <button class="add-prod-submit" type="submit" name="submit">Ready</button>
         <?php
         include("products.php");
         if (isset($_POST['submit'])) {
@@ -43,10 +45,10 @@
                 if (addProduct($product)) {
                     header("Location: ../MainPage/mainpage.php");
                 } else {
-                    echo "Something went wrong";
+                    echo '<p class="error">Something went wrong</p>';
                 }
             } else {
-                echo validateProduct($product);
+                echo '<p class="error">'.validateProduct($product).'</p>';
             }
         }
         ?>

@@ -1,0 +1,127 @@
+body {
+    background-color: rgb(16, 16, 16);
+    color: aqua;
+}
+
+.authorize {
+    text-align: right;
+    width: 100%;
+}
+
+.authorize a {
+    margin-right: 10px;
+    font-size: larger;
+    color: rgb(255, 34, 34);
+    text-decoration: none;
+    padding: 15px;
+}
+
+#logOut-button {
+    color: rgb(254, 33, 33);
+    background: none;
+    border: none;
+    font-size: larger;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.title {
+    text-align: center;
+    color: #d1e956;
+}
+
+.manage-products {
+    text-align: center;
+    font-size: larger;
+}
+
+.manage-products a {
+    color: greenyellow;
+    text-decoration: none;
+}
+
+.manage-products a:hover {
+    color: rgb(190, 226, 135);
+    text-decoration: none;
+}
+
+.product-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-start;
+    padding: 20px;
+}
+
+.product {
+    width: 300px;
+    padding: 0px 50px 20px 0px;
+}
+
+.product h2 {
+    color: lemonchiffon;
+}
+
+.first-word {
+    color: whitesmoke;
+}
+
+.product h3 {
+    margin-top: -15px;
+}
+
+.product h5 {
+    margin-top: -15px;
+    color: rgb(2, 227, 227);
+}
+
+.product img {
+    width: 120px;
+    height: 100px;
+}
+
+.add-to-cart input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid royalblue;
+    color: yellowgreen;
+    width: 200px;
+    font-size: 20px;
+}
+
+.add-to-cart input:focus {
+    outline: none;
+}
+
+.add-to-cart button {
+    align-items: center;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+    margin: 10px 0px 5px 30px;
+    box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, .1) 0 6px 20px;
+    color: #121212;
+    cursor: pointer;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    outline: none;
+    transition: box-shadow .2s, -webkit-box-shadow .2s;
+    border: 0;
+}
+
+.add-to-cart button:hover {
+    box-shadow: #91ae00 0 0 0 1px, transparent 0 0 0 0;
+}
+
+.prod-update,
+.prod-delete {
+    text-decoration: none;
+    color: lightgreen;
+    font-size: 20px;
+}
+
+.prod-update:hover,
+.prod-delete:hover {
+    text-decoration: none;
+    color: rgb(98, 225, 98);
+}

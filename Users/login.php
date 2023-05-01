@@ -1,11 +1,13 @@
-<form action="login.php" method="POST">
-    <label for="email">Email:</label><input type="text" id="email" name="email"><br>
-    <label for="password">Password:</label><input type="password" id="password" name="password"><br>
-    <button name="login" type="submit">Submit</button>
-</form>
-<a href="../MainPage/mainpage.php">Go back</a>
 <?php
-include('header.html');
+include('header.html');?>
+<h1 class="login-title">Login</h1>
+<form class="login-form" action="login.php" method="POST">
+    <label class="email" for="email">Email:</label><input type="text" id="email" name="email"><br>
+    <label class="password" for="password">Password:</label><input type="password" id="password" name="password"><br>
+    <button class="submit" name="login" type="submit">Submit</button>
+</form>
+
+<?php
 include('users.php');
 
 if(isset($_SESSION['user_id'])){
