@@ -45,7 +45,7 @@
                 if (addProduct($product)) {
                     header("Location: ../MainPage/mainpage.php");
                 } else {
-                    echo '<p class="error">Something went wrong</p>';
+                    echo '<p class="error">Something went wrong, please check connection</p>';
                 }
             } else {
                 echo '<p class="error">'.validateProduct($product).'</p>';

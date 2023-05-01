@@ -36,17 +36,19 @@
             $arr = $_SESSION['cart'];
             foreach ($arr as $el) {
                 $product = getProductById($el[0]);
-                $total += $product->getCost() * $el[1]; ?>
-                <div class="cart-item">
-                    <h2><?php echo $product->getName(); ?> </h2>
-                    <p> <span class="first-word">Amount of products: </span><?php echo $el[1] ?></p><br>
-                    <p><span class="first-word">Total cost: </span> <?php echo ($product->getCost() * $el[1]) ?>$</p>
-                    <img src="<?php echo $product->getImage() ?>" alt="Product image">
-                    <form action="cart.php?pr_id=<?php echo $product->getId() ?>" method="POST">
-                        <button class="remove-prod" type="submit" name="remove-prod" class="remove-prod">Remove</button>
-                    </form>
-                </div>
+                if ($product != null) {
+                    $total += $product->getCost() * $el[1]; ?>
+                    <div class="cart-item">
+                        <h2><?php echo $product->getName(); ?> </h2>
+                        <p> <span class="first-word">Amount of products: </span><?php echo $el[1] ?></p><br>
+                        <p><span class="first-word">Total cost: </span> <?php echo ($product->getCost() * $el[1]) ?>$</p>
+                        <img src="<?php echo $product->getImage() ?>" alt="Product image">
+                        <form action="cart.php?pr_id=<?php echo $product->getId() ?>" method="POST">
+                            <button class="remove-prod" type="submit" name="remove-prod" class="remove-prod">Remove</button>
+                        </form>
+                    </div>
         <?php
+                }
             }
         } ?>
     </div>
@@ -71,7 +73,7 @@
         $isEnoughProducts = true;
         foreach ($arr as $el) {
             $product = getProductById($el[0]);
-            if ($product->getAmount() < $el[1]) {
+            if ($product != null && $product->getAmount() < $el[1]) {
                 $isEnoughProducts = false;
                 echo '<p class="error" style="text-align: center;color: rgb(255, 65, 65); font-size: large;"> 
                 Sorry, but in the stock not enough ' . $product->getName() . ', only ' . $product->getAmount() . ' left</p>';
